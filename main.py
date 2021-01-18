@@ -1,11 +1,11 @@
 import calendar
 import numpy as np
-import time
+import itertools
+from segment_code import NUMBER_COMMON_CATHODE
 
-NUMBER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-class SmartCalendar(calendar.Calendar):
+class SmartCalendar():
     calendar.setfirstweekday(calendar.SUNDAY)
+    all_decoder_data = list(itertools.product([0, 1], repeat=3))
 
     def get_time(self):
         now_time = time.localtime(time.time())
@@ -25,6 +25,12 @@ class SmartCalendar(calendar.Calendar):
         else:
             return date
         return date
+    
+    def output(self):
+        for index, number in enumerate(display_date):
+            seg = NUMBER_COMMON_CATHODE[number]
+            decoder_data = all_decoder_data[index]
+            print(decoder_data, seg, NUMBER_COMMON_CATHODE.index(seg))
 
     def analyze_date(self):
         date = self.generate_calendar()
