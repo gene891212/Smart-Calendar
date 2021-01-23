@@ -14,7 +14,11 @@ Install Google Client Library
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 ```
 
+## Usage
+
+Get crediental.json from [Google API Console](https://console.developers.google.com/)
 
 ## Reference
 
-- [Googe Calendar API Python Quickstart](https://developers.google.com/calendar/quickstart/python)
+- [Google Calendar API Python Quickstart](https://developers.google.com/calendar/quickstart/python)
+- [Gmail API Python Quickstart](https://developers.google.com/gmail/api/quickstart/python)
