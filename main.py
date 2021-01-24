@@ -1,4 +1,5 @@
 import calendar, itertools, datetime
+from dateutil import parser
 import numpy as np
 
 from get_credential import generate_credential
@@ -44,19 +45,33 @@ class SmartCalendar():
 
     def mail(self):
         service = generate_credential('gmail')
-        results = service.users().labels().list(userId='me').execute()
-        labels = results.get('labels', [])
+        results = service.users().messages().list(
+            userId='me',
+            maxResults=1,
+            labelIds='IMPORTANT',
+        ).execute()
+        labels = results.get('messages')
 
-        if not labels:
-            print('No labels found.')
-        else:
-            print('Labels:')
-            for label in labels:
-                print(label['name'])
+        for label in labels:
+            title = ''
+            date = ''
+
+            message_detail = service.users().messages().get(
+                userId='me',
+                id=label.get('id'),
+            ).execute()
+
+            content = message_detail.get('snippet')
+            for header in message_detail['payload']['headers']:
+                if header['name'] == 'Subject':
+                    title = header.get('value')
+                elif header['name'] == 'Date':
+                    date = header.get('value')
+            print(title, date, content)
 
 if __name__ == "__main__":
     test = SmartCalendar()
     test.get_time()
     test.generate_calendar()
-    test.get_calendar_event()
-    # test.mail()
+    # test.get_clendar_event()
+    test.mail()

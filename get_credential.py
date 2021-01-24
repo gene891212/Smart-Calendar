@@ -22,7 +22,6 @@ API_DETIALS = {
     }
 }
 
-
 def generate_credential(name):
     api = API_DETIALS[name]
     creds = None
@@ -30,7 +29,7 @@ def generate_credential(name):
         with open(api['TOKEN_NAME'], 'rb') as token:
             creds = pickle.load(token)
     if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_TOKEN:
+        if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
