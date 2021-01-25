@@ -1,15 +1,17 @@
-import calendar, itertools, datetime
+import calendar
+import datetime
 from dateutil import parser
 import numpy as np
 
 from get_credential import generate_credential
 
+
 class SmartCalendar():
     calendar.setfirstweekday(calendar.SUNDAY)
 
-    def get_calendar_event(self):        
+    def get_calendar_event(self):
         service = generate_credential('calendar')
-        now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
         # print('Getting the upcoming 10 events')
         events_result = service.events().list(
             calendarId='85lnb8lqokpbkkt7ckvrgg3pu4@group.calendar.google.com',
@@ -68,6 +70,7 @@ class SmartCalendar():
                 elif header['name'] == 'Date':
                     date = header.get('value')
             print(title, date, content)
+
 
 if __name__ == "__main__":
     test = SmartCalendar()

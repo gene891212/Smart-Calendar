@@ -22,6 +22,7 @@ API_DETIALS = {
     }
 }
 
+
 def generate_credential(name):
     api = API_DETIALS[name]
     creds = None
@@ -35,10 +36,9 @@ def generate_credential(name):
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', api['SCOPES'])
             creds = flow.run_local_server(port=0)
-        with open(api['TOKEN_NAME'], 'wb') as token:   # Save the credentials for the next run
+        # Save the credentials for the next run
+        with open(api['TOKEN_NAME'], 'wb') as token:
             pickle.dump(creds, token)
 
     service = build(api['NAME'], api['VERSION'], credentials=creds)
     return service
-
-
