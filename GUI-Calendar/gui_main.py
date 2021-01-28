@@ -2,13 +2,12 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
 from untitled import Ui_MainWindow
+from window_two import Ui_SecWindow
 
-class DateDetailWindow(QtWidgets.QWidget):
+class DateDetailWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(DateDetailWindow, self).__init__(parent)
-        self.label2 = QtWidgets.QLabel(self)
 
-        
 class MyWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
@@ -24,13 +23,13 @@ class MyWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         
     def startDateDetail(self, date):
-        self.dateDetail = DateDetailWindow(self)
-        self.setWindowTitle(date.toString('yyyy-MM-dd dddd'))
+        self.dateDetail = test1()
+        # self.setWindowTitle(date.toString('yyyy-MM-dd dddd'))
         self.setCentralWidget(self.dateDetail)
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     myshow = MyWindow()
-    myshow.show()
+    myshow.showFullScreen()
     sys.exit(app.exec_())
