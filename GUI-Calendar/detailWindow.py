@@ -11,10 +11,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_SecWindow(object):
-    def setupUi(self, SecWindow):
+class DetailWindow(object):
+    def setupDetail(self, SecWindow):
         SecWindow.setObjectName("SecWindow")
-        SecWindow.resize(887, 778)
         SecWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
         SecWindow.setDocumentMode(False)
         self.centralwidget = QtWidgets.QWidget(SecWindow)
@@ -97,10 +96,11 @@ class Ui_SecWindow(object):
         self.statusbar.setObjectName("statusbar")
         SecWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(SecWindow)
+        self.retranslateDetailUi(SecWindow)
         QtCore.QMetaObject.connectSlotsByName(SecWindow)
+        
 
-    def retranslateUi(self, SecWindow):
+    def retranslateDetailUi(self, SecWindow):
         _translate = QtCore.QCoreApplication.translate
         SecWindow.setWindowTitle(_translate("SecWindow", "MainWindow"))
         self.matter_label.setText(_translate("SecWindow", "代辦事項"))

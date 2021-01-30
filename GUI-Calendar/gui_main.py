@@ -1,35 +1,31 @@
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
-from untitled import Ui_MainWindow
-from window_two import Ui_SecWindow
 
-class DateDetailWindow(QtWidgets.QMainWindow):
+from calendarWindow import CalendarWindow
+from detailWindow import DetailWindow
+
+class Calendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
     def __init__(self, parent=None):
-        super(DateDetailWindow, self).__init__(parent)
+        super(Calendar, self).__init__()
+        self.startCalendar()
 
-class MyWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self):
-        super(MyWindow, self).__init__()
-        self.setupUi(self)
-        # self.calendarWidget.move(0, 40)  # 位置
-        self.startUIWindow()
-
-    def startUIWindow(self):
+    def startCalendar(self):
+        self.setupCalendar(self)
         self.setWindowTitle("智能日歷")
         self.calendarWidget.clicked[QDate].connect(self.startDateDetail)
-        date = self.calendarWidget.selectedDate()  # 获取选中日期，默认当前系统时间
-        #self.label.setText(date.toString('yyyy-MM-dd dddd'))
+        # today = self.calendarWidget.selectedDate()  # 获取选中日期，默认当前系统时间
+        # print(today.toPyDate())
 
-        
     def startDateDetail(self, date):
-        self.dateDetail = test1()
-        # self.setWindowTitle(date.toString('yyyy-MM-dd dddd'))
-        self.setCentralWidget(self.dateDetail)
+        print(date)
+        self.setupDetail(self)
+        self.setWindowTitle(date.toString('yyyy-MM-dd dddd'))
+        self.return_Button.clicked.connect(self.startCalendar)
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    myshow = MyWindow()
-    myshow.showFullScreen()
+    calendar = Calendar()
+    calendar.showMaximized()
     sys.exit(app.exec_())

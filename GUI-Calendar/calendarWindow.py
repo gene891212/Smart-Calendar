@@ -11,10 +11,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+class CalendarWindow(object):
+    def setupCalendar(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(905, 755)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
