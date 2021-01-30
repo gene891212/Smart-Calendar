@@ -1,4 +1,3 @@
-import calendar
 import datetime
 import numpy as np
 
@@ -7,7 +6,6 @@ from get_credential import generate_credential
 
 
 class SmartCalendar():
-    calendar.setfirstweekday(calendar.SUNDAY)
 
     def get_calendar_event(self):
         service = generate_credential('calendar')
@@ -32,18 +30,6 @@ class SmartCalendar():
         now_time = datetime.datetime.now()
         self.year = now_time.year
         self.month = now_time.month
-
-    # def generate_calendar(self):    # 將日期控制在5行
-    #     calendar1 = calendar.monthcalendar(self.year, self.month)
-    #     self.date = np.array(calendar1)
-    #     if len(self.date) > 5:   # 日期超過5行，將第5行加到第1行
-    #         self.date[0] += self.date[-1]
-    #         self.date = np.delete(self.date, -1, 0)
-    #     elif len(self.date == 4):   # 日期等於四行，加一行0進去
-    #         self.date = np.append(self.date, np.zeros((1, 7)), 0)
-    #     else:
-    #         pass
-    #     print(self.date)
 
     def mail(self):
         service = generate_credential('gmail')
@@ -75,6 +61,5 @@ class SmartCalendar():
 if __name__ == "__main__":
     test = SmartCalendar()
     test.get_time()
-    # test.generate_calendar()
     # test.get_clendar_event()
     test.mail()
