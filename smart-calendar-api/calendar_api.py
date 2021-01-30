@@ -1,16 +1,13 @@
 import datetime
-import numpy as np
-
+import json
 from dateutil import parser
+
 from get_credential import generate_credential
 
-
-class SmartCalendar():
-
+class SmartCalendarAPI():
     def get_calendar_event(self):
         service = generate_credential('calendar')
-        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-        # print('Getting the upcoming 10 events')
+        # now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
         events_result = service.events().list(
             calendarId='primary',
             # timeMin=now,
@@ -19,17 +16,13 @@ class SmartCalendar():
             orderBy='startTime'
         ).execute()
         self.events = events_result.get('items', [])
-
+        self.events_time = []
         if not self.events:
             print('No upcoming events found.')
         for event in self.events:
             start = event['start'].get('dateTime', event['start'].get('date'))
-            print(start, event['summary'])
-
-    def get_time(self):
-        now_time = datetime.datetime.now()
-        self.year = now_time.year
-        self.month = now_time.month
+            self.events_time += [parser.parse(start)]
+            print(event_time, event.get('summary'))
 
     def mail(self):
         service = generate_credential('gmail')
@@ -60,6 +53,6 @@ class SmartCalendar():
 
 if __name__ == "__main__":
     test = SmartCalendar()
-    test.get_time()
-    # test.get_clendar_event()
-    test.mail()
+    test.get_calendar_event()
+    # test.get_time()
+    # test.mail()

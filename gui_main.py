@@ -2,13 +2,18 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
 
+sys.path.extend(["./windows", "./smart-calendar-api"])
+
 from calendarWindow import CalendarWindow
 from detailWindow import DetailWindow
 
-class Calendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
+from calendar_api import SmartCalendarAPI
+
+class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
     def __init__(self, parent=None):
-        super(Calendar, self).__init__()
+        super(SmartCalendar, self).__init__()
         self.startCalendar()
+        self.api = SmartCalendarAPI()
 
     def startCalendar(self):
         self.setupCalendar(self)
@@ -23,9 +28,12 @@ class Calendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
         self.setWindowTitle(date.toString('yyyy-MM-dd dddd'))
         self.return_Button.clicked.connect(self.startCalendar)
 
+    def changeMailContent(self):
+        pass
+    
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    calendar = Calendar()
+    calendar = SmartCalendar()
     calendar.showMaximized()
     sys.exit(app.exec_())
