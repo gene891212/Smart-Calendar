@@ -11,48 +11,50 @@ class SmartCalendarAPI():
         events_result = service.events().list(
             calendarId='primary',
             # timeMin=now,
-            maxResults=10,
+            # maxResults=10,
             singleEvents=True,
             orderBy='startTime'
         ).execute()
-        self.events = events_result.get('items', [])
-        self.events_time = []
-        if not self.events:
+        events = events_result.get('items', [])
+        event_detail = []
+        if not events:
             print('No upcoming events found.')
-        for event in self.events:
+        for event in events:
             start = event['start'].get('dateTime', event['start'].get('date'))
-            self.events_time += [parser.parse(start)]
-            print(event_time, event.get('summary'))
+            event_detail += [(parser.parse(start).strftime("%Y/%m/%d"), event.get('summary'))]
+        return event_detail
 
     def mail(self):
         service = generate_credential('gmail')
         results = service.users().messages().list(
             userId='me',
-            maxResults=1,
+            maxResults=15,
             labelIds='IMPORTANT',
         ).execute()
         labels = results.get('messages')
 
+        message_details = []
         for label in labels:
             title = ''
             date = ''
 
-            message_detail = service.users().messages().get(
+            message = service.users().messages().get(
                 userId='me',
                 id=label.get('id'),
             ).execute()
 
-            content = message_detail.get('snippet')
-            for header in message_detail['payload']['headers']:
+            content = message.get('snippet')
+            for header in message['payload']['headers']:
                 if header['name'] == 'Subject':
                     title = header.get('value')
                 elif header['name'] == 'Date':
                     date = header.get('value')
-            print(title, date, content)
-
-
+            date = parser.parse(date).strftime("%Y/%m/%d")
+            print(date)
+            message_details += [(date, title, content)]
+        return message_details
 if __name__ == "__main__":
-    test = SmartCalendar()
-    test.get_calendar_event()
+    test = SmartCalendarAPI()
+    # test.get_calendar_event()
     # test.get_time()
-    # test.mail()
+    test.mail()

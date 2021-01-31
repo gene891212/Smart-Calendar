@@ -20,8 +20,6 @@ class DetailWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(SecWindow.sizePolicy().hasHeightForWidth())
         SecWindow.setSizePolicy(sizePolicy)
-        SecWindow.setMinimumSize(QtCore.QSize(887, 778))
-        SecWindow.setMaximumSize(QtCore.QSize(887, 778))
         SecWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
         SecWindow.setIconSize(QtCore.QSize(30, 28))
         self.centralwidget = QtWidgets.QWidget(SecWindow)
