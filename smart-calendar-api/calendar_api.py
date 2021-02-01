@@ -5,10 +5,12 @@ from dateutil import parser
 from get_credential import generate_credential
 
 class SmartCalendarAPI():
+    calendar_service = generate_credential('calendar')
+    mail_service = generate_credential('gmail')
+
     def get_calendar_event(self):
-        service = generate_credential('calendar')
         # now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-        events_result = service.events().list(
+        events_result = self.calendar_service.events().list(
             calendarId='primary',
             # timeMin=now,
             # maxResults=10,
@@ -25,8 +27,7 @@ class SmartCalendarAPI():
         return event_detail
 
     def mail(self):
-        service = generate_credential('gmail')
-        results = service.users().messages().list(
+        results = self.mail_service.users().messages().list(
             userId='me',
             maxResults=15,
             labelIds='IMPORTANT',

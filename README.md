@@ -10,8 +10,25 @@ Follow the [build-env.md](./build-env.md) to build environment
 
 ```sh
 cd <project-directory>
-python main.py
+python gui_main.py
 ```
+
+Visit URLS on the terminal to authorize calendar and gmail application
+
+![authorize](img/authorize-application.png)
+
+1. Login your Gmail account
+2. Press "Advance"
+
+![authorize](img/authorize-application2.png)
+
+3. Press "Go to Quickstart"
+
+![authorize](img/authorize-application3.png)
+
+3. Press "Access"
+4. Press "Access"
+
 
 ## Reference
 

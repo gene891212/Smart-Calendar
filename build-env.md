@@ -8,10 +8,10 @@ Select "Download ZIP" and extract the file you download
 
 ## Install Python Package
 
-- Install numpy
+- Install PyQt5
 
 ```shell
-pip install numpy
+pip install PyQt5
 ```
 
 - Install Google Client Library
