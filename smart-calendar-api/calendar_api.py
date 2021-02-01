@@ -39,7 +39,7 @@ class SmartCalendarAPI():
             title = ''
             date = ''
 
-            message = service.users().messages().get(
+            message = self.mail_service.users().messages().get(
                 userId='me',
                 id=label.get('id'),
             ).execute()
