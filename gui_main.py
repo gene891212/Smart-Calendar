@@ -10,7 +10,7 @@ from calendar_api import SmartCalendarAPI
 from detailWindow import DetailWindow
 from calendarWindow import CalendarWindow
 
-# from get_speech_text import get_speech_text
+from get_speech_text import get_speech_text
 
 
 class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
@@ -52,7 +52,7 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
 
         def send():
             clear()
-            self.api.insert_event(self.select_date, "test")
+            self.api.insert_event(self.select_date, self.summary)
             Timer(0, self.insertToDoList).start()
 
         self.send_button.clicked.connect(send)
@@ -60,8 +60,8 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
         self.input_label.setText("Listening...")
 
         # speech-to-text features
-        # self.summary = get_speech_text()
-        # self.input_label.setText(self.summary)
+        self.summary = get_speech_text()
+        self.input_label.setText(self.summary)
 
 
 if __name__ == "__main__":
