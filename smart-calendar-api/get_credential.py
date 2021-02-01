@@ -9,7 +9,7 @@ from google.auth.transport.requests import Request
 
 API_DETIALS = {
     'calendar': {
-        'SCOPES': ['https://www.googleapis.com/auth/calendar.readonly'],
+        'SCOPES': ['https://www.googleapis.com/auth/calendar'],
         'NAME': 'calendar',
         'VERSION': 'v3',
         'TOKEN_NAME': 'calendar-token.pickle'
