@@ -82,7 +82,7 @@ class SmartCalendarAPI():
 if __name__ == "__main__":
     test = SmartCalendarAPI()
 
-    now = datetime.date(2021, 2, 1).strftime('%Y-%m-%d')
-    # test.insert_event(now, "test")
+    now = datetime.date(2021, 2, 2).strftime('%Y-%m-%d')
+    test.insert_event(now, "test")
     test.get_event()
     # test.mail()
