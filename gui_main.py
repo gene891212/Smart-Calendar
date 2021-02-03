@@ -28,7 +28,7 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
         self.setWindowTitle(date.toString("yyyy-MM-dd dddd"))
 
         self.return_button.clicked.connect(self.startCalendar)
-        self.input_button.clicked.connect(Thread(target=self.speechToText).start)
+        self.input_button.clicked.connect(self.startListening)
         self.send_button.clicked.connect(self.sendToGoogle)
         self.cancel_button.clicked.connect(self.clearInput)
 
@@ -56,6 +56,9 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
     def clearInput(self):
         self.result = ""
         self.input_label.setText("")
+
+    def startListening(self):
+        Thread(target=self.speechToText).start()
 
     def speechToText(self):
         r = sr.Recognizer()
