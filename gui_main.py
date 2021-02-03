@@ -1,16 +1,15 @@
+import pyaudio
+import speech_recognition as sr
 import sys
-import time
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
-from threading import Timer
+from threading import Thread
 
 sys.path.extend(["./windows", "./smart-calendar-api"])
 
 from calendar_api import SmartCalendarAPI
 from detailWindow import DetailWindow
 from calendarWindow import CalendarWindow
-
-from get_speech_text import get_speech_text
 
 
 class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
@@ -26,13 +25,16 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
 
     def startDateDetail(self, date):
         self.setupDetail(self)
-        self.setWindowTitle(date.toString('yyyy-MM-dd dddd'))
-        self.return_button.clicked.connect(self.startCalendar)
-        self.input_button.clicked.connect(self.speechToText)
+        self.setWindowTitle(date.toString("yyyy-MM-dd dddd"))
 
-        self.select_date = date.toPyDate().strftime('%Y-%m-%d')
-        Timer(0, self.insertToDoList).start()
-        Timer(0, self.insertMailList).start()
+        self.return_button.clicked.connect(self.startCalendar)
+        self.input_button.clicked.connect(Thread(target=self.speechToText).start)
+        self.send_button.clicked.connect(self.sendToGoogle)
+        self.cancel_button.clicked.connect(self.clearInput)
+
+        self.select_date = date.toPyDate().strftime("%Y-%m-%d")
+        Thread(target=self.insertToDoList).start()
+        Thread(target=self.insertMailList).start()
 
     def insertToDoList(self):
         self.event_detail = self.api.get_event()
@@ -44,25 +46,34 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
         self.message_details = self.api.mail()
         for date, title, content in self.message_details:
             if self.select_date == date:
-                self.mail_listWidget.addItem(f'{title}----{content}...')
+                self.mail_listWidget.addItem(f"{title}----{content}...")
+
+    # speech-to-text
+    def sendToGoogle(self):
+        self.api.insert_event(self.select_date, self.result)
+        Thread(target=self.insertToDoList).start()
+
+    def clearInput(self):
+        self.result = ""
+        self.input_label.setText("")
 
     def speechToText(self):
-        def clear():
-            self.input_label.setText("")
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            self.input_label.setText("Listening...")
+            r.adjust_for_ambient_noise(source)
+            audio = r.listen(source)
+        try:
+            self.result = r.recognize_google(audio, language="zh-TW")
+        except sr.UnknowValueError:
+            self.result = "無法翻譯"
+        except sr.RequestError as e:
+            self.result = "無法翻譯{0}".format(e)
+        self.input_label.setText(self.result)
 
-        def send():
-            clear()
-            self.api.insert_event(self.select_date, self.summary)
-            Timer(0, self.insertToDoList).start()
-
-        self.send_button.clicked.connect(send)
-        self.cancel_button.clicked.connect(clear)
-        self.input_label.setText("Listening...")
-
-        # speech-to-text features
-        self.summary = get_speech_text()
-        self.input_label.setText(self.summary)
-
+    # def test(self):
+    #     self.input_label.setText("hihi")
+    #     self.result = "today"
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
