@@ -38,6 +38,7 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
 
     def insertToDoList(self):
         self.event_detail = self.api.get_event()
+        self.to_Do_listWidget.clear()
         for date, summary in self.event_detail:
             if self.select_date == date:
                 self.to_Do_listWidget.addItem(summary)
