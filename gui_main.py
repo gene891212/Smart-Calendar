@@ -30,6 +30,7 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
         self.return_button.clicked.connect(self.startCalendar)
         self.input_button.clicked.connect(self.startListening)
         self.send_button.clicked.connect(self.sendToGoogle)
+        self.send_button.setEnabled(False)
         self.cancel_button.clicked.connect(self.clearInput)
 
         self.select_date = date.toPyDate().strftime("%Y-%m-%d")
@@ -42,6 +43,7 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
         for date, summary in self.event_detail:
             if self.select_date == date:
                 self.to_Do_listWidget.addItem(summary)
+        self.result = ""
 
     def insertMailList(self):
         self.message_details = self.api.mail()
@@ -53,8 +55,11 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
     def sendToGoogle(self):
         self.api.insert_event(self.select_date, self.result)
         Thread(target=self.insertToDoList).start()
+        self.send_button.setEnabled(False)
+        self.input_label.setText("")
 
     def clearInput(self):
+        self.send_button.setEnabled(False)
         self.result = ""
         self.input_label.setText("")
 
@@ -73,7 +78,8 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
             self.result = "無法翻譯"
         except sr.RequestError as e:
             self.result = "無法翻譯{0}".format(e)
-        self.input_label.setText(self.result)
+        self.input_label.setText("self.result")
+        self.send_button.setEnabled(True)
 
     # def test(self):
     #     self.input_label.setText("hihi")
