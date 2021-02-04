@@ -26,7 +26,7 @@ class SmartCalendarAPI():
                 self.delete_event(event.get('id'))
             start = event['start'].get('dateTime', event['start'].get('date'))
             event_detail += [(parser.parse(start).strftime('%Y-%m-%d'), event.get('summary'))]
-        print(event_detail)
+        # print(event_detail)
         return event_detail
 
     def delete_event(self, eventId):
@@ -73,7 +73,7 @@ class SmartCalendarAPI():
                 elif header['name'] == 'Date':
                     date = header.get('value')
             date = parser.parse(date).strftime('%Y-%m-%d')
-            print(date)
+            # print(date)
             message_details += [(date, title, content)]
         # print(message_details)
         return message_details

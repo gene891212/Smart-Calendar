@@ -78,15 +78,16 @@ class SmartCalendar(QtWidgets.QMainWindow, CalendarWindow, DetailWindow):
             self.result = "無法翻譯"
         except sr.RequestError as e:
             self.result = "無法翻譯{0}".format(e)
-        self.input_label.setText("self.result")
+        self.input_label.setText(self.result)
         self.send_button.setEnabled(True)
 
     # def test(self):
-    #     self.input_label.setText("hihi")
-    #     self.result = "today"
+    #     self.input_label.setText("mytest")
+    #     self.result = "mytest"
+    #     self.send_button.setEnabled(True)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     calendar = SmartCalendar()
-    calendar.show()
+    calendar.showMaximized()
     sys.exit(app.exec_())
