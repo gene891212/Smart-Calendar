@@ -14,6 +14,8 @@ from bs4 import BeautifulSoup
 all_num = []
 string = "Heart Rate: {:.2f} bpm / SpO2: {:.2f} %"
 
+status = False
+count = 0
 app = Flask(__name__)
 
 
@@ -53,17 +55,22 @@ def index():
 
 @app.route("/weather", methods=['GET'])
 def view():
-    global weather, temp, humidity
+    global weather, temp, humidity, count, status
     now = datetime.datetime.now()
     if now.hour == 00:
         weather, temp, humidity = scrap()
-
+    if count == 10:
+        status = True
+        print(status)
     data = {
-        "now": now.strftime('%a, %d %b %Y %H:%M:%S'),
-        "weather": f"台北市: {weather}",
+        "now": now.strftime('%a, %d %b %Y %H:%M'),
+#        "weather": f"台北市: {weather}",
         "temperature": f"{temp}˚",
-        "humidity": f"{humidity}"
+        "humidity": f"{humidity}",
+        "car_amount": random.randint(10, 17),
+        "emergency_box_status": status,
     }
+    count += 1
     return render_template(
         "index.html",
         all=json.dumps(data, indent=4, separators=(
